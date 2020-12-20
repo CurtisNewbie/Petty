@@ -32,3 +32,6 @@ target/
 .project
 
 dependency-reduced-pom.xml
+
+# project generated
+*.db

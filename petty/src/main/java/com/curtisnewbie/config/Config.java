@@ -16,12 +16,25 @@ public class Config implements Serializable {
      */
     private String savePath;
 
+    /**
+     * Record whether it's the first time the user logged in
+     */
+    private boolean isFirstTimeLogin;
+
     public String getSavePath() {
         return savePath;
     }
 
     public void setSavePath(String savePath) {
         this.savePath = savePath;
+    }
+
+    public boolean isFirstTimeLogin() {
+        return isFirstTimeLogin;
+    }
+
+    public void setFirstTimeLogin(boolean firstTimeLogin) {
+        isFirstTimeLogin = firstTimeLogin;
     }
 
     @Override

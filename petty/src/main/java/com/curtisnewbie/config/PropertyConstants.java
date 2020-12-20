@@ -19,4 +19,5 @@ public final class PropertyConstants {
     public static final String APP_DEF_HEIGHT = "app.def.height";
     public static final String APP_MIN_WIDTH = "app.min.width";
     public static final String APP_MIN_HEIGHT = "app.min.height";
+    public static final String APP_INIT_SQL_SCRIPT = "app.init.script";
 }
