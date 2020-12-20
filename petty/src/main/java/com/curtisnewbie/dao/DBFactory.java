@@ -7,6 +7,8 @@ import com.curtisnewbie.util.IOUtil;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -56,6 +58,7 @@ public final class DBFactory implements MapperFactory {
     }
 
     private static class HospitalRecordMapperImpl implements HospitalRecordMapper {
+
         private final Connection conn;
 
         private HospitalRecordMapperImpl(Connection conn) {
@@ -99,6 +102,23 @@ public final class DBFactory implements MapperFactory {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        @Override
+        public List<HospitalRecordEntity> findAll() {
+            List<HospitalRecordEntity> list = new ArrayList<>();
+            try (PreparedStatement stmt = conn.prepareStatement("SELECT id, date FROM hospital_record");) {
+                ResultSet resultSet = stmt.executeQuery();
+                while (resultSet.next()) {
+                    HospitalRecordEntity entity = new HospitalRecordEntity();
+                    entity.setId(resultSet.getInt(1));
+                    entity.setDate(resultSet.getDate(2));
+                    list.add(entity);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return list;
         }
     }
 

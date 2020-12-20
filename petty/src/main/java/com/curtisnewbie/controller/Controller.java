@@ -28,9 +28,11 @@ public class Controller implements Initializable {
         entity.setDate(new Date());
         Optional<Integer> opt = hospitalRecordMapper.insert(entity);
         if (opt.isPresent()) {
+            System.out.println(hospitalRecordMapper.findAll());
             entity.setId(opt.get());
             boolean res1 = hospitalRecordMapper.deleteById(entity);
             boolean res = hospitalRecordMapper.updateById(entity);
+            System.out.println(hospitalRecordMapper.findAll());
         }
     }
 }
