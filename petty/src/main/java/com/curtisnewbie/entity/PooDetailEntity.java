@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author yongjie.zhuang
  */
-public final class PooDetailEntity {
+public final class PooDetailEntity implements Entity {
 
     /** Primary key */
     private Integer id;

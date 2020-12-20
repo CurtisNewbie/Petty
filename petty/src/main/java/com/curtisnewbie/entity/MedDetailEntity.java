@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author yongjie.zhuang
  */
-public final class MedDetailEntity {
+public final class MedDetailEntity implements Entity {
 
     /** Primary key */
     private Integer id;

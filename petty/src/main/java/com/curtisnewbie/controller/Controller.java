@@ -4,6 +4,7 @@ import com.curtisnewbie.dao.DBFactory;
 import com.curtisnewbie.dao.HospitalRecordDetailMapper;
 import com.curtisnewbie.dao.HospitalRecordMapper;
 import com.curtisnewbie.dao.MapperType;
+import com.curtisnewbie.entity.HospitalRecordEntity;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -24,6 +25,11 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         HospitalRecordMapper hospitalRecordMapper = (HospitalRecordMapper) dbFactory.getMapper(MapperType.HOSPITAL_RECORD);
+        HospitalRecordEntity entity = new HospitalRecordEntity();
+        entity.setDate(new Date());
+        Optional<Integer> opt = hospitalRecordMapper.insert(entity);
+        if (opt.isPresent())
+            System.out.println("id: " + opt.get());
     }
 }
 

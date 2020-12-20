@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author yongjie.zhuang
  */
-public final class HospitalRecordDetailEntity {
+public final class HospitalRecordDetailEntity implements Entity {
 
     /** primary key */
     private Integer id;

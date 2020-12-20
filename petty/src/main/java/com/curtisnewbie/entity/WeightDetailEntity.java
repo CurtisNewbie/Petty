@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author yongjie.zhuang
  */
-public final class WeightDetailEntity {
+public final class WeightDetailEntity implements Entity {
 
     /** Primary key */
     private Integer id;

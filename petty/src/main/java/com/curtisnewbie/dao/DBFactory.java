@@ -2,13 +2,12 @@ package com.curtisnewbie.dao;
 
 import com.curtisnewbie.config.PropertiesLoader;
 import com.curtisnewbie.config.PropertyConstants;
+import com.curtisnewbie.entity.*;
 import com.curtisnewbie.util.IOUtil;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Optional;
 
 /**
  * @author yongjie.zhuang
@@ -65,6 +64,33 @@ public final class DBFactory implements MapperFactory {
         private HospitalRecordMapperImpl(Connection conn) {
             this.conn = conn;
         }
+
+        @Override
+        public Optional<Integer> insert(HospitalRecordEntity entity) {
+            try {
+                PreparedStatement preparedStatement = conn
+                        .prepareStatement("INSERT INTO hospital_record (date) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setDate(1, new java.sql.Date(entity.getDate().toInstant().toEpochMilli()));
+                preparedStatement.executeUpdate();
+                ResultSet set = preparedStatement.getGeneratedKeys();
+                if (set.next())
+                    return Optional.of(set.getInt(1));
+                return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Optional.empty();
+            }
+        }
+
+        @Override
+        public boolean deleteById(HospitalRecordEntity entity) {
+            return false;
+        }
+
+        @Override
+        public boolean updateById(HospitalRecordEntity entity) {
+            return false;
+        }
     }
 
     private static class HospitalRecordDetailMapperImpl implements HospitalRecordDetailMapper {
@@ -75,6 +101,21 @@ public final class DBFactory implements MapperFactory {
             this.conn = conn;
         }
 
+        @Override
+        public Optional<Integer> insert(HospitalRecordDetailEntity entity) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean deleteById(HospitalRecordDetailEntity entity) {
+            return false;
+
+        }
+
+        @Override
+        public boolean updateById(HospitalRecordDetailEntity entity) {
+            return false;
+        }
     }
 
     private static class MedDetailMapperImpl implements MedDetailMapper {
@@ -85,6 +126,20 @@ public final class DBFactory implements MapperFactory {
             this.conn = conn;
         }
 
+        @Override
+        public Optional<Integer> insert(MedDetailEntity entity) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean deleteById(MedDetailEntity entity) {
+            return false;
+        }
+
+        @Override
+        public boolean updateById(MedDetailEntity entity) {
+            return false;
+        }
     }
 
     private static class PooDetailMapperImpl implements PooDetailMapper {
@@ -95,6 +150,20 @@ public final class DBFactory implements MapperFactory {
             this.conn = conn;
         }
 
+        @Override
+        public Optional<Integer> insert(PooDetailEntity entity) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean deleteById(PooDetailEntity entity) {
+            return false;
+        }
+
+        @Override
+        public boolean updateById(PooDetailEntity entity) {
+            return false;
+        }
     }
 
     private static class WeightDetailMapperImpl implements WeightDetailMapper {
@@ -103,6 +172,21 @@ public final class DBFactory implements MapperFactory {
 
         private WeightDetailMapperImpl(Connection conn) {
             this.conn = conn;
+        }
+
+        @Override
+        public Optional<Integer> insert(WeightDetailEntity entity) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean deleteById(WeightDetailEntity entity) {
+            return false;
+        }
+
+        @Override
+        public boolean updateById(WeightDetailEntity entity) {
+            return false;
         }
     }
 }
