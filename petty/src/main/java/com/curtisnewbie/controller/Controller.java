@@ -1,7 +1,6 @@
 package com.curtisnewbie.controller;
 
 import com.curtisnewbie.dao.DBFactory;
-import com.curtisnewbie.dao.HospitalRecordDetailMapper;
 import com.curtisnewbie.dao.HospitalRecordMapper;
 import com.curtisnewbie.dao.MapperType;
 import com.curtisnewbie.entity.HospitalRecordEntity;

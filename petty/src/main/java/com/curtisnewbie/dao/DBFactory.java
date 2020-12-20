@@ -15,9 +15,9 @@ import java.util.Optional;
 public final class DBFactory implements MapperFactory {
 
     public static final DBFactory INSTANCE = new DBFactory();
-    private static final Connection conn;
+    private final Connection conn;
 
-    static {
+    private DBFactory() {
         try {
             String rootPath = System.getProperty("user.home") + File.separator + "petty";
             new File(rootPath).mkdir();
@@ -26,9 +26,6 @@ public final class DBFactory implements MapperFactory {
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to database", e);
         }
-    }
-
-    private DBFactory() {
     }
 
     private static void initTablesIfNotExists(Connection conn) {
