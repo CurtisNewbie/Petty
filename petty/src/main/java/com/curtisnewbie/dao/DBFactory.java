@@ -15,14 +15,14 @@ import java.util.Optional;
 public final class DBFactory implements MapperFactory {
 
     public static final DBFactory INSTANCE = new DBFactory();
-    private final Connection conn;
+    private final Connection connection;
 
     private DBFactory() {
         try {
             String rootPath = System.getProperty("user.home") + File.separator + "petty";
             new File(rootPath).mkdir();
-            conn = DriverManager.getConnection("jdbc:sqlite:" + rootPath + File.separator + "petty.db");
-            initTablesIfNotExists(conn);
+            connection = DriverManager.getConnection("jdbc:sqlite:" + rootPath + File.separator + "petty.db");
+            initTablesIfNotExists(connection);
         } catch (SQLException e) {
             throw new RuntimeException("Cannot connect to database", e);
         }
@@ -42,15 +42,15 @@ public final class DBFactory implements MapperFactory {
         if (type == null)
             throw new IllegalArgumentException("MapperType should not be null");
         if (type.equals(MapperType.HOSPITAL_RECORD))
-            return new HospitalRecordMapperImpl(this.conn);
+            return new HospitalRecordMapperImpl(this.connection);
         else if (type.equals(MapperType.HOSPITAL_RECORD_DETAIL))
-            return new HospitalRecordDetailMapperImpl(this.conn);
+            return new HospitalRecordDetailMapperImpl(this.connection);
         else if (type.equals(MapperType.MED_DETAIL))
-            return new MedDetailMapperImpl(this.conn);
+            return new MedDetailMapperImpl(this.connection);
         else if (type.equals(MapperType.POO_DETAIL))
-            return new PooDetailMapperImpl(this.conn);
+            return new PooDetailMapperImpl(this.connection);
         else if (type.equals(MapperType.WEIGHT_DETAIL))
-            return new WeightDetailMapperImpl(this.conn);
+            return new WeightDetailMapperImpl(this.connection);
         else
             throw new UnsupportedOperationException("MapperType not supported");
     }
@@ -64,10 +64,9 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(HospitalRecordEntity entity) {
-            try {
-                PreparedStatement preparedStatement = conn
-                        .prepareStatement("INSERT INTO hospital_record (date) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-                preparedStatement.setDate(1, new java.sql.Date(entity.getDate().toInstant().toEpochMilli()));
+            try (PreparedStatement preparedStatement = conn
+                    .prepareStatement("INSERT INTO hospital_record (date) VALUES (?)", Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setDate(1, toSqlDate(entity.getDate()));
                 preparedStatement.executeUpdate();
                 ResultSet set = preparedStatement.getGeneratedKeys();
                 if (set.next())
@@ -81,12 +80,25 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean deleteById(HospitalRecordEntity entity) {
-            return false;
+            try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM hospital_record WHERE id = ?")) {
+                preparedStatement.setInt(1, entity.getId());
+                return preparedStatement.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         @Override
         public boolean updateById(HospitalRecordEntity entity) {
-            return false;
+            try (PreparedStatement preparedStatement = conn.prepareStatement("UPDATE hospital_record SET date = ? WHERE id = ?")) {
+                preparedStatement.setDate(1, toSqlDate(entity.getDate()));
+                preparedStatement.setInt(2, entity.getId());
+                return preparedStatement.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
@@ -185,5 +197,10 @@ public final class DBFactory implements MapperFactory {
         public boolean updateById(WeightDetailEntity entity) {
             return false;
         }
+
+    }
+
+    private static Date toSqlDate(java.util.Date date) {
+        return new java.sql.Date(date.toInstant().toEpochMilli());
     }
 }
