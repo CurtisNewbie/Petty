@@ -13,5 +13,7 @@ public interface Mapper<T extends Entity> {
 
     boolean deleteById(T entity);
 
+    boolean deleteById(int id);
+
     boolean updateById(T entity);
 }

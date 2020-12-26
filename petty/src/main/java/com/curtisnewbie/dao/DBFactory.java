@@ -80,8 +80,13 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean deleteById(HospitalRecordEntity entity) {
+            return deleteById(entity.getId());
+        }
+
+        @Override
+        public boolean deleteById(int id) {
             try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM hospital_record WHERE id = ?")) {
-                preparedStatement.setInt(1, entity.getId());
+                preparedStatement.setInt(1, id);
                 return preparedStatement.executeUpdate() == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -132,9 +137,14 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean deleteById(HospitalRecordDetailEntity entity) {
-            try (PreparedStatement preparedStatement = conn
-                    .prepareStatement("DELETE FROM hospital_record_detail WHERE id = ?", Statement.RETURN_GENERATED_KEYS);) {
-                preparedStatement.setInt(1, entity.getId());
+            return deleteById(entity.getId());
+        }
+
+        @Override
+        public boolean deleteById(int id) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM hospital_record_detail WHERE id = ?",
+                    Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setInt(1, id);
                 return preparedStatement.executeUpdate() == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -185,14 +195,19 @@ public final class DBFactory implements MapperFactory {
         }
 
         @Override
-        public boolean deleteById(MedDetailEntity entity) {
+        public boolean deleteById(int id) {
             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM med_detail WHERE id = ?")) {
-                stmt.setInt(1, entity.getId());
+                stmt.setInt(1, id);
                 return stmt.executeUpdate() == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        @Override
+        public boolean deleteById(MedDetailEntity entity) {
+            return deleteById(entity.getId());
         }
 
         @Override
@@ -235,8 +250,13 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean deleteById(PooDetailEntity entity) {
+            return deleteById(entity.getId());
+        }
+
+        @Override
+        public boolean deleteById(int id) {
             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM poo_detail WHERE id = ?")) {
-                stmt.setInt(1, entity.getId());
+                stmt.setInt(1, id);
                 return stmt.executeUpdate() == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -285,8 +305,13 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean deleteById(WeightDetailEntity entity) {
+            return deleteById(entity.getId());
+        }
+
+        @Override
+        public boolean deleteById(int id) {
             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM weight_detail WHERE id = ?")) {
-                stmt.setInt(1, entity.getId());
+                stmt.setInt(1, id);
                 return stmt.executeUpdate() == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -296,7 +321,7 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean updateById(WeightDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("UPDATE weight_detail SET date = ?, remarks = ?, weight = ? WHERE id = ?") {
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE weight_detail SET date = ?, remarks = ?, weight = ? WHERE id = ?")) {
                 stmt.setDate(1, toSqlDate(entity.getDate()));
                 stmt.setString(2, entity.getRemarks());
                 stmt.setDouble(3, entity.getWeight());
