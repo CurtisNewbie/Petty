@@ -1,6 +1,4 @@
 CREATE TABLE IF NOT EXISTS hospital_record_detail (
-    id INT AUTO_INCREMENT,
-    hospital_record_pk INT NOT NULL,
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     hospital_record_Pk INT NOT NULL,
     type INT(3) NOT NULL,
