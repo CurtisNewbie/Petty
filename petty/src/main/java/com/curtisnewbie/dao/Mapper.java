@@ -9,11 +9,23 @@ import java.util.Optional;
  */
 public interface Mapper<T extends Entity> {
 
+    /**
+     * Insert entity and return the generated primary key
+     */
     Optional<Integer> insert(T entity);
 
+    /**
+     * Delete entity by primary key
+     */
     boolean deleteById(T entity);
 
+    /**
+     * Delete entity by primary key
+     */
     boolean deleteById(int id);
 
+    /**
+     * Update entity by primary key
+     */
     boolean updateById(T entity);
 }
