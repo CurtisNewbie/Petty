@@ -112,18 +112,51 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(HospitalRecordDetailEntity entity) {
-            return Optional.empty();
+            try (PreparedStatement preparedStatement = conn
+                    .prepareStatement("INSERT INTO hospital_record_detail (hospital_record_pk, type, date,  remarks) VALUES (?, ?, ?, ?)",
+                            Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setInt(1, entity.getHospitalRecordPk());
+                preparedStatement.setInt(2, entity.getType());
+                preparedStatement.setDate(3, toSqlDate(entity.getDate()));
+                preparedStatement.setString(4, entity.getRemarks());
+                preparedStatement.executeUpdate();
+                ResultSet set = preparedStatement.getGeneratedKeys();
+                if (set.next())
+                    return Optional.of(set.getInt(1));
+                return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Optional.empty();
+            }
         }
 
         @Override
         public boolean deleteById(HospitalRecordDetailEntity entity) {
-            return false;
-
+            try (PreparedStatement preparedStatement = conn
+                    .prepareStatement("DELETE FROM hospital_record_detail WHERE id = ?", Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setInt(1, entity.getId());
+                return preparedStatement.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         @Override
         public boolean updateById(HospitalRecordDetailEntity entity) {
-            return false;
+            try (PreparedStatement preparedStatement = conn
+                    .prepareStatement("UPDATE hospital_record_detail SET hospital_record_pk = ?, type = ?, date = ?, remarks = ? WHERE id = ?",
+                            Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setInt(1, entity.getHospitalRecordPk());
+                preparedStatement.setInt(2, entity.getType());
+                preparedStatement.setDate(3, toSqlDate(entity.getDate()));
+                preparedStatement.setString(4, entity.getRemarks());
+                preparedStatement.setInt(5, entity.getId());
+                return preparedStatement.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
@@ -137,17 +170,42 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(MedDetailEntity entity) {
-            return Optional.empty();
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO med_detail (date, remarks) VALUES (?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                ResultSet set = stmt.getGeneratedKeys();
+                if (set.next())
+                    return Optional.of(set.getInt(1));
+                return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Optional.empty();
+            }
         }
 
         @Override
         public boolean deleteById(MedDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM med_detail WHERE id = ?")) {
+                stmt.setInt(1, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         @Override
         public boolean updateById(MedDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE med_detail SET date = ?, remarks = ? WHERE id = ?")) {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                stmt.setInt(3, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
@@ -161,17 +219,42 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(PooDetailEntity entity) {
-            return Optional.empty();
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO poo_detail (date, remarks) VALUES (?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                ResultSet set = stmt.getGeneratedKeys();
+                if (set.next())
+                    return Optional.of(set.getInt(1));
+                return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Optional.empty();
+            }
         }
 
         @Override
         public boolean deleteById(PooDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM poo_detail WHERE id = ?")) {
+                stmt.setInt(1, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         @Override
         public boolean updateById(PooDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE poo_detail SET date = ?, remarks = ? WHERE id = ?")) {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                stmt.setInt(3, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
@@ -185,22 +268,55 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(WeightDetailEntity entity) {
-            return Optional.empty();
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO weight_detail (date, remarks, weight) VALUES (?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                stmt.setDouble(3, entity.getWeight());
+                ResultSet set = stmt.getGeneratedKeys();
+                if (set.next())
+                    return Optional.of(set.getInt(1));
+                return Optional.empty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Optional.empty();
+            }
         }
 
         @Override
         public boolean deleteById(WeightDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM weight_detail WHERE id = ?")) {
+                stmt.setInt(1, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         @Override
         public boolean updateById(WeightDetailEntity entity) {
-            return false;
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE weight_detail SET date = ?, remarks = ?, weight = ? WHERE id = ?") {
+                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setString(2, entity.getRemarks());
+                stmt.setDouble(3, entity.getWeight());
+                stmt.setInt(4, entity.getId());
+                return stmt.executeUpdate() == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
-
     }
 
-    private static Date toSqlDate(java.util.Date date) {
+
+    /**
+     * Convert java.util.Date to java.sql.Date
+     *
+     * @param date java.util.Date
+     * @return java.sql.Date
+     */
+    private static java.sql.Date toSqlDate(java.util.Date date) {
         return new java.sql.Date(date.toInstant().toEpochMilli());
     }
 }
