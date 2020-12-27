@@ -6,4 +6,5 @@ package com.curtisnewbie.dao;
 public interface MapperFactory {
 
     Mapper getMapper(MapperType type);
+
 }
