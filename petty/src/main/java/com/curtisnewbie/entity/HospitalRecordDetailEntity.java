@@ -19,7 +19,7 @@ public final class HospitalRecordDetailEntity implements Entity {
     private Integer type;
 
     /** date */
-    private Date date;
+    private Date createDate;
 
     /** remarks */
     private String remarks;
@@ -56,11 +56,11 @@ public final class HospitalRecordDetailEntity implements Entity {
         this.remarks = remarks;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

@@ -13,7 +13,7 @@ public final class WeightDetailEntity implements Entity {
     private Integer id;
 
     /** date */
-    private Date date;
+    private Date createDate;
 
     /** weight */
     private Double weight;
@@ -29,12 +29,12 @@ public final class WeightDetailEntity implements Entity {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Double getWeight() {

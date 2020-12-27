@@ -2,30 +2,30 @@ CREATE TABLE IF NOT EXISTS hospital_record_detail (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     hospital_record_Pk INT NOT NULL,
     type INT(3) NOT NULL,
-    date DATETIME NOT NULL,
+    create_date DATETIME NOT NULL,
     remarks VARCHAR(1000) DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS hospital_record (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date DATETIME NOT NULL
+    create_date DATETIME NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS med_detail (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date DATETIME NOT NULL,
+    create_date DATETIME NOT NULL,
     remarks VARCHAR(1000) DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS poo_detail (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date DATETIME NOT NULL,
+    create_date DATETIME NOT NULL,
     remarks VARCHAR(1000) DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS weight_detail (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date DATETIME NOT NULL,
+    create_date DATETIME NOT NULL,
     weight DOUBLE NOT NULL,
     remarks VARCHAR(1000) DEFAULT ''
 );

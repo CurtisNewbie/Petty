@@ -13,7 +13,7 @@ public final class HospitalRecordEntity implements Entity {
     private Integer id;
 
     /** date */
-    private Date date;
+    private Date createDate;
 
     public Integer getId() {
         return id;
@@ -23,17 +23,17 @@ public final class HospitalRecordEntity implements Entity {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override
     public String toString() {
-        return "HospitalRecordEntity{" + "id=" + id + ", date=" + date + '}';
+        return "HospitalRecordEntity{" + "id=" + id + ", date=" + createDate + '}';
     }
 }
 

@@ -68,8 +68,8 @@ public final class DBFactory implements MapperFactory {
         @Override
         public Optional<Integer> insert(HospitalRecordEntity entity) {
             try (PreparedStatement preparedStatement = conn
-                    .prepareStatement("INSERT INTO hospital_record (date) VALUES (?)", Statement.RETURN_GENERATED_KEYS);) {
-                preparedStatement.setDate(1, toSqlDate(entity.getDate()));
+                    .prepareStatement("INSERT INTO hospital_record (create_date) VALUES (?)", Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setDate(1, toSqlDate(entity.getCreateDate()));
                 preparedStatement.executeUpdate();
                 ResultSet set = preparedStatement.getGeneratedKeys();
                 if (set.next())
@@ -99,8 +99,8 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean updateById(HospitalRecordEntity entity) {
-            try (PreparedStatement preparedStatement = conn.prepareStatement("UPDATE hospital_record SET date = ? WHERE id = ?")) {
-                preparedStatement.setDate(1, toSqlDate(entity.getDate()));
+            try (PreparedStatement preparedStatement = conn.prepareStatement("UPDATE hospital_record SET create_date = ? WHERE id = ?")) {
+                preparedStatement.setDate(1, toSqlDate(entity.getCreateDate()));
                 preparedStatement.setInt(2, entity.getId());
                 return preparedStatement.executeUpdate() == 1;
             } catch (SQLException e) {
@@ -112,12 +112,12 @@ public final class DBFactory implements MapperFactory {
         @Override
         public List<HospitalRecordEntity> findAll() {
             List<HospitalRecordEntity> list = new ArrayList<>();
-            try (PreparedStatement stmt = conn.prepareStatement("SELECT id, date FROM hospital_record");) {
+            try (PreparedStatement stmt = conn.prepareStatement("SELECT id, create_date FROM hospital_record");) {
                 ResultSet resultSet = stmt.executeQuery();
                 while (resultSet.next()) {
                     HospitalRecordEntity entity = new HospitalRecordEntity();
                     entity.setId(resultSet.getInt(1));
-                    entity.setDate(resultSet.getDate(2));
+                    entity.setCreateDate(resultSet.getDate(2));
                     list.add(entity);
                 }
             } catch (SQLException e) {
@@ -138,11 +138,11 @@ public final class DBFactory implements MapperFactory {
         @Override
         public Optional<Integer> insert(HospitalRecordDetailEntity entity) {
             try (PreparedStatement preparedStatement = conn
-                    .prepareStatement("INSERT INTO hospital_record_detail (hospital_record_pk, type, date,  remarks) VALUES (?, ?, ?, ?)",
+                    .prepareStatement("INSERT INTO hospital_record_detail (hospital_record_pk, type, create_date,  remarks) VALUES (?, ?, ?, ?)",
                             Statement.RETURN_GENERATED_KEYS);) {
                 preparedStatement.setInt(1, entity.getHospitalRecordPk());
                 preparedStatement.setInt(2, entity.getType());
-                preparedStatement.setDate(3, toSqlDate(entity.getDate()));
+                preparedStatement.setDate(3, toSqlDate(entity.getCreateDate()));
                 preparedStatement.setString(4, entity.getRemarks());
                 preparedStatement.executeUpdate();
                 ResultSet set = preparedStatement.getGeneratedKeys();
@@ -175,11 +175,11 @@ public final class DBFactory implements MapperFactory {
         @Override
         public boolean updateById(HospitalRecordDetailEntity entity) {
             try (PreparedStatement preparedStatement = conn
-                    .prepareStatement("UPDATE hospital_record_detail SET hospital_record_pk = ?, type = ?, date = ?, remarks = ? WHERE id = ?",
+                    .prepareStatement("UPDATE hospital_record_detail SET hospital_record_pk = ?, type = ?, create_date = ?, remarks = ? WHERE id = ?",
                             Statement.RETURN_GENERATED_KEYS);) {
                 preparedStatement.setInt(1, entity.getHospitalRecordPk());
                 preparedStatement.setInt(2, entity.getType());
-                preparedStatement.setDate(3, toSqlDate(entity.getDate()));
+                preparedStatement.setDate(3, toSqlDate(entity.getCreateDate()));
                 preparedStatement.setString(4, entity.getRemarks());
                 preparedStatement.setInt(5, entity.getId());
                 return preparedStatement.executeUpdate() == 1;
@@ -200,9 +200,9 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(MedDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO med_detail (date, remarks) VALUES (?, ?)",
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO med_detail (create_date, remarks) VALUES (?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 ResultSet set = stmt.getGeneratedKeys();
                 if (set.next())
@@ -232,8 +232,8 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean updateById(MedDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("UPDATE med_detail SET date = ?, remarks = ? WHERE id = ?")) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE med_detail SET create_date = ?, remarks = ? WHERE id = ?")) {
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 stmt.setInt(3, entity.getId());
                 return stmt.executeUpdate() == 1;
@@ -254,9 +254,9 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(PooDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO poo_detail (date, remarks) VALUES (?, ?)",
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO poo_detail (create_date, remarks) VALUES (?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 ResultSet set = stmt.getGeneratedKeys();
                 if (set.next())
@@ -286,8 +286,8 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean updateById(PooDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("UPDATE poo_detail SET date = ?, remarks = ? WHERE id = ?")) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE poo_detail SET create_date = ?, remarks = ? WHERE id = ?")) {
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 stmt.setInt(3, entity.getId());
                 return stmt.executeUpdate() == 1;
@@ -308,9 +308,9 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public Optional<Integer> insert(WeightDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO weight_detail (date, remarks, weight) VALUES (?, ?, ?)",
+            try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO weight_detail (create_date, remarks, weight) VALUES (?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 stmt.setDouble(3, entity.getWeight());
                 ResultSet set = stmt.getGeneratedKeys();
@@ -341,8 +341,8 @@ public final class DBFactory implements MapperFactory {
 
         @Override
         public boolean updateById(WeightDetailEntity entity) {
-            try (PreparedStatement stmt = conn.prepareStatement("UPDATE weight_detail SET date = ?, remarks = ?, weight = ? WHERE id = ?")) {
-                stmt.setDate(1, toSqlDate(entity.getDate()));
+            try (PreparedStatement stmt = conn.prepareStatement("UPDATE weight_detail SET create_date = ?, remarks = ?, weight = ? WHERE id = ?")) {
+                stmt.setDate(1, toSqlDate(entity.getCreateDate()));
                 stmt.setString(2, entity.getRemarks());
                 stmt.setDouble(3, entity.getWeight());
                 stmt.setInt(4, entity.getId());

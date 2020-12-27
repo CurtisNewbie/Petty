@@ -13,7 +13,7 @@ public final class MedDetailEntity implements Entity {
     private Integer id;
 
     /** date */
-    private Date date;
+    private Date createDate;
 
     /** remarks */
     private String remarks;
@@ -26,12 +26,12 @@ public final class MedDetailEntity implements Entity {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public String getRemarks() {
